@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: websocket-config
+  namespace: default
+data:
+  RELAY_COUNT: "3"
+  RELAY_START_ID: "1"
+  REDIS_URL: "redis://redis-service:6379"

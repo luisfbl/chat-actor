@@ -8,7 +8,10 @@ actix-web = { version = "4.11.0" }
 actix-web-actors = { version = "4.3.1" }
 actix = { version = "0.13.5" }
 
-tokio = { version = "1.45.0", default-features = false, features = ["rt-multi-thread", "macros"] }
+tokio = { version = "1", features = ["full"] }
 bytestring = "1.4.0"
 serde_json = { version = "1.0.140" }
 serde = { version = "1.0.219", default-features = false, features = ["derive"] }
+redis = { version = "0.31.0", features = ["tokio-comp", "aio", "async-std-comp"] }
+uuid = { version = "1.17.0", features = ["v4"] }
+futures-util = "0.3.31"

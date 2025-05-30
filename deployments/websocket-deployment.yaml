@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: websocket-service
+  labels:
+    app: websocket-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: websocket-service
+  template:
+    metadata:
+      labels:
+        app: websocket-service
+    spec:
+      containers:
+        - name: websocket
+          image: websocket-service:latest
+          imagePullPolicy: Never  # Para desenvolvimento local
+          ports:
+            - containerPort: 9002
+              name: websocket
+          env:
+            - name: RELAY_COUNT
+              valueFrom:
+                configMapKeyRef:
+                  name: websocket-config
+                  key: RELAY_COUNT
+            - name: RELAY_START_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: websocket-config
+                  key: RELAY_START_ID
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: websocket-config
+                  key: REDIS_URL
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 9002
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9002
+            initialDelaySeconds: 15
+            periodSeconds: 20
