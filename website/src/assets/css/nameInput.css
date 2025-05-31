@@ -1,6 +1,3 @@
-/* nameInput.css */
-
-/* Container ocupa toda a tela e usa o mesmo degradê caso queira consistência */
 .name-page-container {
   width: 100vw;
   height: 100vh;
@@ -10,8 +7,6 @@
   align-items: center;
   font-family: Arial, sans-serif;
 }
-
-/* Caixa branca semi-transparente para o card */
 .name-card {
   background-color: rgba(255, 255, 255, 0.9);
   padding: 40px 30px;
@@ -22,7 +17,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Títulos */
 .name-title {
   margin-bottom: 20px;
   font-size: 1.25rem;
@@ -34,8 +28,6 @@
   font-size: 1.25rem;
   color: #333;
 }
-
-/* Formulário e input */
 .name-form {
   display: flex;
   flex-direction: column;
@@ -54,8 +46,6 @@
 .name-input:focus {
   border-color: #5865f2;
 }
-
-/* Botão principal */
 .name-button {
   padding: 10px 14px;
   font-size: 1rem;
@@ -66,20 +56,15 @@
   cursor: pointer;
   transition: background-color 0.2s;
 }
-
 .name-button:hover {
   background-color: #4752c4;
 }
-
-/* Exibição do nome enviado */
 .name-result .result-name {
   font-size: 1.5rem;
   font-weight: bold;
   color: #5865f2;
   margin-bottom: 20px;
 }
-
-/* Botão para reiniciar e digitar outro nome */
 .name-reset-button {
   padding: 8px 12px;
   font-size: 0.95rem;
