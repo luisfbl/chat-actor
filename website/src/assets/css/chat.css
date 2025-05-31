@@ -1,242 +1,223 @@
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+/* ─────────────────────────────────────────────────────
+   RESET GLOBAL
+───────────────────────────────────────────────────── */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-.login-form {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  min-width: 300px;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
-.login-form h2 {
-  margin-bottom: 1rem;
-  text-align: center;
-  color: #333;
-}
-
-.login-form input {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.login-form button {
-  width: 100%;
-  padding: 0.75rem;
-  background: #5865f2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.login-form button:hover:not(:disabled) {
-  background: #4752c4;
-}
-
-.login-form button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
+/* ─────────────────────────────────────────────────────
+   CONTAINER PRINCIPAL DO CHAT
+───────────────────────────────────────────────────── */
 .chat-container {
   display: flex;
-  height: 100vh;
-  background-color: #36393f;
-  color: #dcddde;
+  flex-direction: column;
+  height: 100vh;       /* ocupa toda a altura da janela */
+  width: 100vw;        /* ocupa toda a largura da janela */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;    /* remove scroll externo */
+  background: linear-gradient(#5865F2, #9338F1);
+  font-family: Arial, sans-serif;
+  color: #fff;
 }
 
+/* ─────────────────────────────────────────────────────
+   HEADER DO USUÁRIO ATUAL (ALINHADO À DIREITA)
+───────────────────────────────────────────────────── */
+.user-header {
+  display: flex;
+  justify-content: flex-end;    /* conteúdo alinhado à direita */
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-info-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;                    /* espaço entre nome e avatar */
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  background-color: #ccc;      /* fallback enquanto carrega */
+}
+
+.user-name-header {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* ─────────────────────────────────────────────────────
+   TOP BAR (AVATARES DO GRUPO + INFO DO CANAL)
+───────────────────────────────────────────────────── */
+.chat-topbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.avatar-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.avatar-group .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+  margin-left: -10px;
+  background-color: #ccc;
+}
+
+.avatar-group .avatar:first-child {
+  margin-left: 0;
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  margin-left: 12px;
+}
+
+.team-name {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.last-seen {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ─────────────────────────────────────────────────────
+   CABEÇALHO DO CANAL
+───────────────────────────────────────────────────── */
+.chat-header {
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  background: rgba(0, 0, 0, 0.10);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ─────────────────────────────────────────────────────
+   ÁREA PRINCIPAL DE MENSAGENS
+───────────────────────────────────────────────────── */
 .chat-main {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.chat-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  background-color: #2f3136;
-  border-bottom: 1px solid #202225;
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-
-.connection-status {
-  display: flex;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.status-connected {
-  color: #57f287;
-}
-
-.status-disconnected {
-  color: #ed4245;
-}
-
-.status-error {
-  color: #faa61a;
-}
-
 .chat-messages {
   flex: 1;
-  padding: 1rem 1.5rem;
-  overflow-y: auto;
-  background-color: #36393f;
+  padding: 20px;    /* espaçamento interno */
+  overflow-y: auto; /* rolagem interna apenas nesta área */
 }
 
-.welcome-message {
-  text-align: center;
-  color: #72767d;
-  margin-top: 2rem;
+/* ─── Bolha de mensagem (usuários terceiros) ─── */
+.message-bubble {
+  max-width: 70%;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  word-wrap: break-word; /* permitir quebra de linha */
 }
 
-.welcome-message p {
-  margin: 0.5rem 0;
-}
-
-.message {
-  margin-bottom: 0.5rem;
-  padding: 0.25rem 0;
-  display: flex;
-  gap: 0.5rem;
-  align-items: baseline;
-}
-
-.message.own-message {
-  background-color: rgba(88, 101, 242, 0.1);
-  border-radius: 4px;
-  padding: 0.5rem;
-  margin-left: 2rem;
-}
-
-.message-user {
-  font-weight: bold;
-  color: #5865f2;
-  min-width: fit-content;
-}
-
-.message-text {
-  flex: 1;
-  word-wrap: break-word;
-}
-
-.message-time {
-  font-size: 0.75rem;
-  color: #72767d;
+/* ─── Bolha de mensagem do próprio usuário (alinhada à direita) ─── */
+.message-bubble.right {
   margin-left: auto;
+  background-color: #FFFFFF; /* bolha branca */
+  color: #333;               /* texto escuro */
 }
 
-.chat-input {
+/* Metadados da mensagem: nome, função e horário */
+.message-meta {
   display: flex;
-  padding: 1rem 1.5rem;
-  background-color: #2f3136;
-  border-top: 1px solid #202225;
-  gap: 0.5rem;
+  gap: 8px;
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+  opacity: 0.9;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+.user-role {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.time {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ─────────────────────────────────────────────────────
+   CAIXA DE INPUT PARA DIGITAR MENSAGEM
+───────────────────────────────────────────────────── */
+.chat-input {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.10);
 }
 
 .chat-input input {
-  flex: 1;
-  padding: 0.75rem;
-  background-color: #40444b;
-  border: none;
-  border-radius: 4px;
-  color: #dcddde;
+  width: 100%;
+  padding: 10px;
   font-size: 1rem;
-}
-
-.chat-input input:focus {
-  outline: none;
-  background-color: #484b51;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
 .chat-input input::placeholder {
-  color: #72767d;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.chat-input button {
-  padding: 0.75rem 1.5rem;
-  background-color: #5865f2;
-  color: white;
-  border: none;
-  border-radius: 4px;
+/* ─────────────────────────────────────────────────────
+   SCROLL DAS MENSAGENS
+───────────────────────────────────────────────────── */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+/* ─────────────────────────────────────────────────────
+   LISTA DE USUÁRIOS (hover opcional)
+───────────────────────────────────────────────────── */
+.user-item:hover {
+  text-decoration: underline;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s;
-}
-
-.chat-input button:hover:not(:disabled) {
-  background-color: #4752c4;
-}
-
-.chat-input button:disabled {
-  background-color: #4f545c;
-  cursor: not-allowed;
-}
-
-.chat-sidebar {
-  width: 250px;
-  background-color: #2f3136;
-  border-left: 1px solid #202225;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-header {
-  padding: 1rem;
-  background-color: #27292d;
-  border-bottom: 1px solid #202225;
-  font-weight: bold;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  color: #72767d;
-}
-
-.current-user {
-  padding: 1rem;
-  border-bottom: 1px solid #202225;
-}
-
-.user-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.username {
-  font-weight: bold;
-  color: #dcddde;
-}
-
-.user-status {
-  font-size: 0.8rem;
-  color: #57f287;
-}
-
-.debug-info {
-  padding: 1rem;
-  font-size: 0.8rem;
-  color: #72767d;
-}
-
-.debug-info p {
-  margin: 0.25rem 0;
-}
-
-.debug-info .error {
-  color: #ed4245;
 }

@@ -4,7 +4,11 @@ import logo from "../assets/Logo2.png";
 
 const LoadingScreen: React.FC = () => (
   <div className="loading-container">
-    <img src={logo} alt="Sad Discord Logo" className="loading-logo" />
+    {/* Logo estática e maior, posicionada no topo */}
+    <img src={logo} alt="Logo" className="large-logo" />
+
+    {/* Spinner (bolinha girando) abaixo da logo */}
+    <div className="spinner" />
   </div>
 );
 

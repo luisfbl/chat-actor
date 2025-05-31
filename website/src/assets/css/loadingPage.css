@@ -1,18 +1,36 @@
+/* loadingPage.css */
+
+/* ─── Container principal ocupa a tela inteira ─── */
 .loading-container {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(#5865F2, #9338F1);
+  background: linear-gradient(#5865F2, #9338F1); /* mesmo degradê */
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* ─── Logo estática e maior ─── */
+.large-logo {
+  width: 250px;         /* deixa bem maior que antes */
+  height: auto;
+  margin-bottom: 40px;  /* espaçamento maior para o spinner */
 }
 
-.loading-logo {
-  width: 450px;
-  height: auto;
-  animation: spin 2s linear infinite;
+/* ─── Keyframes para girar ─── */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Spinner: bolinha girando ─── */
+.spinner {
+  width: 60px;                                /* tamanho da bolinha */
+  height: 60px;
+  border: 6px solid rgba(255, 255, 255, 0.3); /* parte “apagada” */
+  border-top: 6px solid #ffffff;              /* parte “ativa” (branca) */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;          /* roda continuamente */
 }
