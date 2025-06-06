@@ -18,15 +18,12 @@ async fn create_message(
     pool: web::Data<PgPool>,
     msg: web::Json<ChatMessage>
 ) -> impl Responder {
-    let result = sqlx::query!(
-        r#"
-        INSERT INTO messages (user_id, content, timestamp)
-        VALUES ($1, $2, $3)
-        "#,
-        msg.user_id,
-        msg.content,
-        msg.timestamp
+    let result = sqlx::query(
+        "INSERT INTO messages (user_id, content, timestamp) VALUES ($1, $2, $3)"
     )
+    .bind(msg.user_id)
+    .bind(&msg.content)
+    .bind(msg.timestamp)
     .execute(pool.get_ref())
     .await;
 
@@ -59,7 +56,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .service(create_message)
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 8080))?
     .run()
     .await
 }

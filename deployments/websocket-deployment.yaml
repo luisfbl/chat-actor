@@ -1,26 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: websocket-service
-  labels:
-    app: websocket-service
+  name: websocket-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: websocket-service
+      app: websocket
   template:
     metadata:
       labels:
-        app: websocket-service
+        app: websocket
     spec:
       containers:
         - name: websocket
-          image: websocket-service:latest
-          imagePullPolicy: Never  # Para desenvolvimento local
+          image: chat-actor-websocket:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 9002
-              name: websocket
           env:
             - name: RELAY_COUNT
               valueFrom:
@@ -32,31 +29,41 @@ spec:
                 configMapKeyRef:
                   name: websocket-config
                   key: RELAY_START_ID
-            - name: REDIS_URL
+            - name: MAX_CONNECTIONS_PER_RELAY
               valueFrom:
                 configMapKeyRef:
                   name: websocket-config
-                  key: REDIS_URL
+                  key: MAX_CONNECTIONS_PER_RELAY
+            - name: REDIS_CLUSTER_NODES
+              valueFrom:
+                configMapKeyRef:
+                  name: websocket-config
+                  key: REDIS_CLUSTER_NODES
+            - name: REDIS_FALLBACK_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: websocket-config
+                  key: REDIS_FALLBACK_URL
             - name: POD_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
               memory: "256Mi"
               cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           readinessProbe:
             httpGet:
               path: /health
               port: 9002
-            initialDelaySeconds: 5
-            periodSeconds: 10
+            initialDelaySeconds: 10
+            periodSeconds: 5
           livenessProbe:
             httpGet:
               path: /health
               port: 9002
-            initialDelaySeconds: 15
-            periodSeconds: 20
+            initialDelaySeconds: 30
+            periodSeconds: 10

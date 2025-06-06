@@ -2,8 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: websocket-config
-  namespace: default
 data:
   RELAY_COUNT: "3"
   RELAY_START_ID: "1"
-  REDIS_URL: "redis://redis-service:6379"
+  MAX_CONNECTIONS_PER_RELAY: "800"
+  REDIS_CLUSTER_NODES: "redis://redis-0.redis.default.svc.cluster.local:6379,redis://redis-1.redis.default.svc.cluster.local:6379,redis://redis-2.redis.default.svc.cluster.local:6379"
+  REDIS_FALLBACK_URL: "redis://redis.default.svc.cluster.local:6379"
