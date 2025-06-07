@@ -5,7 +5,7 @@ use actix::{Actor, Context, Handler, AsyncContext, ActorFutureExt, WrapFuture};
 use tokio::sync::mpsc;
 use crate::actors::{
     JoinEvent, RegisterConnection, UnRegisterConnection, UserMessage,
-    RedisMessage, RedisMessageType
+    RedisMessage, RedisMessageType, GetMetrics
 };
 use crate::redis_cluster::RedisClusterManager;
 
@@ -365,5 +365,13 @@ impl Handler<UserMessage> for RelayActor {
         let processing_time = start_time.elapsed().as_millis() as f64;
         self.update_response_time(processing_time);
         self.metrics.message_count += 1;
+    }
+}
+
+impl Handler<GetMetrics> for RelayActor {
+    type Result = actix::MessageResult<GetMetrics>;
+
+    fn handle(&mut self, _msg: GetMetrics, _ctx: &mut Self::Context) -> Self::Result {
+        actix::MessageResult(self.metrics.clone())
     }
 }

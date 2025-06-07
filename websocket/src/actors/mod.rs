@@ -30,6 +30,10 @@ pub struct UserMessage {
     pub content: String
 }
 
+#[derive(actix::Message)]
+#[rtype(result="crate::actors::relay::RelayMetrics")]
+pub struct GetMetrics;
+
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 pub struct RedisMessage {
     pub from_pod_id: String,

@@ -164,6 +164,23 @@ impl DynamicRelayBalancer {
         rebalances
     }
 
+    pub async fn sync_metrics_from_relays(&self) {
+        use crate::actors::GetMetrics;
+        
+        let relays = self.relays.read().await.clone();
+        
+        for (relay_id, relay_addr) in relays {
+            if let Ok(relay_metrics) = relay_addr.send(GetMetrics).await {
+                self.update_relay_metrics(
+                    relay_id,
+                    relay_metrics.active_connections,
+                    relay_metrics.message_count as f64, // Using message_count as throughput indicator
+                    relay_metrics.avg_response_time,
+                ).await;
+            }
+        }
+    }
+
     pub async fn get_relay_stats(&self) -> HashMap<u32, RelayMetrics> {
         self.metrics.read().await.clone()
     }

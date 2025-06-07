@@ -72,7 +72,6 @@ kubectl wait --for=condition=available --timeout=120s deployment/websocket-deplo
 echo "🌍 Deploy Ingress e Autoscaling..."
 kubectl apply -f ingress/
 kubectl apply -f autoscaling/
-kubectl apply -f monitoring/
 
 echo "✅ Deploy concluído com sucesso!"
 echo ""

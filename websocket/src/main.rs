@@ -119,6 +119,8 @@ impl AppState {
                 interval.tick().await;
                 debug!("Executando ciclo de atualização de métricas");
                 
+                // Sincronizar métricas dos relays antes de obter stats
+                relay_balancer.sync_metrics_from_relays().await;
                 let relay_stats = relay_balancer.get_relay_stats().await;
                 let total_connections: usize = relay_stats.values()
                     .map(|r| r.active_connections)
@@ -203,6 +205,8 @@ async fn health(state: actix_web::web::Data<AppState>) -> actix_web::HttpRespons
 #[actix_web::get("/metrics")]
 async fn metrics(state: actix_web::web::Data<AppState>) -> actix_web::HttpResponse {
     debug!("Métricas solicitadas para pod: {}", state.pod_id);
+    // Sincronizar métricas dos relays antes de retornar
+    state.relay_balancer.sync_metrics_from_relays().await;
     let relay_stats = state.relay_balancer.get_relay_stats().await;
     let pod_stats = state.load_balancer.get_pod_stats().await;
 
@@ -225,6 +229,8 @@ async fn metrics(state: actix_web::web::Data<AppState>) -> actix_web::HttpRespon
 #[actix_web::get("/relays")]
 async fn get_relays(state: actix_web::web::Data<AppState>) -> actix_web::HttpResponse {
     debug!("Informações de relays solicitadas para pod: {}", state.pod_id);
+    // Sincronizar métricas dos relays antes de retornar
+    state.relay_balancer.sync_metrics_from_relays().await;
     let relay_stats = state.relay_balancer.get_relay_stats().await;
     let active_relay_ids: Vec<_> = relay_stats.keys().collect();
 

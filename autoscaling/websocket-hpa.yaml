@@ -6,7 +6,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: websocket-service
+    name: websocket-deployment
   minReplicas: 2
   maxReplicas: 10
   metrics:
